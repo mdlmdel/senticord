@@ -1,0 +1,62 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  letter-spacing: 0.5px;
+  background: #978d85;
+}
+
+.container {
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
+.bg-img {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+      rgba(234, 234, 234, 1), 
+      rgba(255, 0, 0, 0.25)
+    ),
+  url('../images/cape-cod_wellfleet-water.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+h1 {
+  margin-bottom: 20px;
+  color: #00356b;
+}
+
+input {
+  width: 290px;
+}
+
+#search-input {
+  width: 910px;
+}
+
+button, input[type="text"] {
+  padding: 5px;
+}
+
+button {
+  background: #286dc0;
+  color: #ffffff;
+  letter-spacing: 1.0px;
+  font-weight: bold;
+  padding: 5px;
+}
+
+button:hover {
+  cursor: pointer;
+  background: #00356b;
+}
+
+#results {
+  list-style: none;
+}
