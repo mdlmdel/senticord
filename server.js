@@ -14,6 +14,14 @@ const {Entity} = require('./models');
 const app = express();
 app.use(bodyParser.json());
 
+/*app.get('/public', (req, res) => {
+  res.json(Entities.get());
+});*/
+/*app.get('/public', function(req,res) {
+  res.sendfile('public/index.html');
+});*/
+app.use(express.static('public'))
+
 // GET requests to /entities => return 10 entity records
 app.get('/entities', (req, res) => {
   Entity
@@ -23,9 +31,9 @@ app.get('/entities', (req, res) => {
     .limit(10)
     // `exec` returns a promise
     .exec()
-    // success callback: for each restaurant we got back, we'll
+    // success callback: for each entity we got back, we'll
     // call the `.apiRepr` instance method we've created in
-    // models.js in order to only expose the data we want the API return.
+    // models.js in order to only expose the data we want in the API return.
     .then(entities => {
       res.json({
         entities: entities.map(

@@ -2,6 +2,8 @@ $(document).ready(() => {
   let sources = ["https://hbr.org", "http://nytimes.com", "http://wsj.com", "http://economist.com", 
     "http://forbes.com", "https://ft.com", "http://time.com"];
   let results = [];
+  $('#header').hide();
+  $('.results').hide();
   // Submit event handler
   $('#search-form').submit((e) => {
     e.preventDefault();
@@ -72,13 +74,36 @@ $(document).ready(() => {
     ).then(function() {
         console.log(results);
         averageSentimentScore(results);
+        showResults(results);
       }
     )
   }
 
   // showResults using ES6
   var showResults = (data) => {
-    console.log(data.docSentiment.score);
+    $('#header').show();
+    $('.results').show();
+    var html = "";
+    for (var i = 0; i < data.length; i++) {
+      html += "<tr>";
+      html += "<td>" + cleanURL(data[i].url) + "</td>";
+      html += "<td>" + data[i].docSentiment.score + "</td>";
+      html += "<td>" + data[i].docSentiment.type + "</td>";
+      html += "<td>" + Date().slice(0,-24) + "</td>";
+      html += "</tr>";
+    }
+    $('#results').append(html);
+  }
+
+  // Clean URL function
+  var cleanURL = (url) => {
+    var position = url.indexOf("://");
+    url = url.slice(position+3);
+    var position = url.indexOf(".com");
+    if (position !== -1) {
+      url = url.slice(0,position+4);
+    }
+    return url;
   }
 
   var averageSentimentScore = (record) => {
@@ -92,58 +117,4 @@ $(document).ready(() => {
     console.log(average.toFixed(4));
   }
 
-  // fusionCharts
-  /*function getData(){
-      //use the find() API and pass an empty query object to retrieve all records
-      dbObject.collection("entities").find({}).toArray(function(err, docs){
-        if ( err ) throw err;
-        var monthArray = [];
-        var score = [];
-        var averageSentimentScore = [];
-        var sentimentType = [];
-     
-        for ( index in docs){
-          var doc = docs[index];
-          //category array
-          var month = doc['month'];
-          //series 1 values array
-          var sentimentScore = doc['score'];
-          //series 2 values array
-          var chartAverageSentimentScore = doc['average'];
-          monthArray.push({"label": month});
-          score.push({"value" : score});
-          average.push({"value" : average});
-          source.push({"value": source});
-        }
-     
-        var dataset = [
-          {
-            "average" : "Average Sentiment Score",
-            "data" : averageSentimentScore
-          },
-          {
-            "type" : "Sentiment Type",
-            "data": averageSentimentType
-          }
-        ];
-     
-        var response = {
-          "dataset" : dataset,
-          "categories" : monthArray
-        };
-      });
-    }
-
-    var chartData;
-    $(function(){
-      $.AJAX({
-        url: 'http://localhost:8080/entities-app',
-        type: 'GET',
-        success : function(data) {
-          chartData = data;
-          console.log(data);
-    }
-  });
-});
-    */
 })

@@ -57,6 +57,25 @@ button:hover {
   background: #00356b;
 }
 
+.results {
+  padding-top: 20px;
+  background: #f9f9f9;
+  color: #00356b;
+}
+
+th {
+  padding-right: 20px;
+  paddingt-left: 20px;
+}
+
+#header, th {
+  text-deocration: underline;
+  padding-left: 25px;
+  padding-right: 25px;
+}
+
 #results {
   list-style: none;
+  padding-left: 20px;
+  padding-right: 20px;
 }
