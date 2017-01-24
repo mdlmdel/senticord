@@ -3,6 +3,7 @@
   <head>
     <title>SentiCord: Customized Trending Sentinment Analysis</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
     <!-- link to jquery -->
@@ -16,21 +17,28 @@
     <form id="search-form">
       <label for="search-term"></label>
       <input type="text" name="search-input" id="search-term" placeholder="e.g., Leadership">
-      <button type="submit">Select</button>
+      <button type="submit" class="btn btn-primary">Select</button>
     </form>
     <table>
       &nbsp;
     </table>
-    <table class="results">
+    <table class="table table-hover results">
       <thead id="header">
+        <tr id="query"></tr>
         <tr>
           <th>Publication</th>
-          <th>Score</th>
-          <th>Type</th>
+          <th>Sentiment Score</th>
+          <th>Sentiment Type</th>
           <th>Report Date</th>
         </tr>
       </thead>
       <tbody id="results"></tbody>
     </table>
+    <table>
+      <tr>
+      <form method="post" action="/users/me">
+        <button type="submit" id="sign-in-to-save" class="btn btn-primary">Save Report</button>
+      </form>
+      </tr>
   </body>
 </html>

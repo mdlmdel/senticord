@@ -4,11 +4,11 @@ $(document).ready(() => {
   let results = [];
   $('#header').hide();
   $('.results').hide();
+  $('#sign-in-to-save').hide();
   // Submit event handler
   $('#search-form').submit((e) => {
     e.preventDefault();
     let query = $('#search-term').val();
-    console.log(query);
     // Results object
     // Accumulate results in an object, then display those results
     let record = {
@@ -37,7 +37,7 @@ $(document).ready(() => {
       temp.url = sources[i];
       paramsArray.push(temp);
     }
-      console.log(paramsArray);
+
     // Run parallel asynchronous AJAX requests with jQuery promise
     $.when(
       
@@ -74,6 +74,9 @@ $(document).ready(() => {
     ).then(function() {
         console.log(results);
         averageSentimentScore(results);
+
+
+
         showResults(results);
       }
     )
@@ -93,6 +96,7 @@ $(document).ready(() => {
       html += "</tr>";
     }
     $('#results').append(html);
+    $('#sign-in-to-save').show();
   }
 
   // Clean URL function
@@ -113,8 +117,31 @@ $(document).ready(() => {
       total += Number(record[i].docSentiment.score);
     }
     let average = total / record.length;
-    // toFixed(numberofdecimalplaces)
-    console.log(average.toFixed(4));
+    return average;
   }
+
+  // ADDED BELOW
+  // Submit event handler for clicking on "Sign in to Save Report"
+  $('#sign-in-to-save').submit( function(e) {
+    e.preventDefault();
+    document.location.href = '/users/me'
+    createUser(account);
+    createUser(account);
+  })
+
+  var signIn = (account) => {
+    let username = "";
+    let password = "";
+    let firstName = "";
+    let lastName = "";
+  }
+
+  var createUser = (account) => {
+    let username = "";
+    let password = "";
+    let firstName = "";
+    let lastName = "";
+  }
+  // ADDED ABOVE
 
 })

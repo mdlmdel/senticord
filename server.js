@@ -2,6 +2,12 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose');
 
+// ADDED START
+const morgan = require('morgan');
+
+const {router: usersRouter} = require('./users');
+// ADDED END
+
 // Mongoose internally uses a promise-like object,
 // but it's better to make Mongoose use built in es6 promises
 mongoose.Promise = global.Promise;
@@ -20,7 +26,7 @@ app.use(bodyParser.json());
 /*app.get('/public', function(req,res) {
   res.sendfile('public/index.html');
 });*/
-app.use(express.static('public'))
+app.use(express.static('public'));
 
 // GET requests to /entities => return 10 entity records
 app.get('/entities', (req, res) => {
@@ -55,7 +61,7 @@ app.get('/entities/:id', (req, res) => {
     // by the object _id property
     .findById(req.params.id)
     .exec()
-    .then(restaurant =>res.json(entity.apiRepr()))
+    .then(entity =>res.json(entity.apiRepr()))
     .catch(err => {
       console.error(err);
         res.status(500).json({message: 'Internal server error'})
@@ -65,7 +71,7 @@ app.get('/entities/:id', (req, res) => {
 
 app.post('/entities', (req, res) => {
 
-  const requiredFields = ['query', 'average', 'type', 'source'];
+  const requiredFields = ['query', 'average', 'results', 'date'];
   requiredFields.forEach(field => {
     // ensure that required fields have been sent over
     if (! (field in req.body && req.body[field])) {
@@ -73,20 +79,36 @@ app.post('/entities', (req, res) => {
     }
   });
 
-  Entity
+// Record that fully encapsulates search
+    let record = {
+      query: query, 
+      average: average, 
+      results: results, 
+      date: Date()
+    }
+    Entity.create(record, function(err, record) {
+      if (err) {
+        console.log("Error creating record");
+        mongoose.disconnect(); 
+        return;
+      }
+      console.log("Record created");
+      mongoose.disconnect();
+    });
+  /* Entity
     .create({
       query: req.body.query,
       average: req.body.average,
       type: req.body.type,
       source: req.body.source
       /*date: .body.source,
-      score: .body.score*/})
-    .then(
+      score: .body.score*///})
+   /* .then(
       entity => res.status(201).json(entity.apiRepr()))
     .catch(err => {
       console.error(err);
       res.status(500).json({message: 'Internal server error'});
-    });
+    }); */
 });
 
 
