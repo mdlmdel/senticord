@@ -4,18 +4,11 @@ $(document).ready(() => {
   let results = [];
   $('#header').hide();
   $('.results').hide();
-  $('#sign-in-to-save').hide();
+  $('#save-report-button').hide();
   // Submit event handler
   $('#search-form').submit((e) => {
     e.preventDefault();
     let query = $('#search-term').val();
-    // Results object
-    // Accumulate results in an object, then display those results
-    let record = {
-      date: new Date (), 
-      scores: [],
-      types: []
-    }
     // Call this once
     getEntities(query);
   })
@@ -47,36 +40,27 @@ $(document).ready(() => {
       }),
       
       $.getJSON(ALCHEMY_URL, paramsArray[1], (data) => {
-        // There will be one for each of the 5 results
         results.push(data);
       }),
       
       $.getJSON(ALCHEMY_URL, paramsArray[2], (data) => {
-        // There will be one for each of the 5 results
         results.push(data);
       }),
       $.getJSON(ALCHEMY_URL, paramsArray[3], (data) => {
-        // There will be one for each of the 5 results
         results.push(data);
       }),
       $.getJSON(ALCHEMY_URL, paramsArray[4], (data) => {
-        // There will be one for each of the 5 results
         results.push(data);
       }),
       $.getJSON(ALCHEMY_URL, paramsArray[5], (data) => {
-        // There will be one for each of the 5 results
         results.push(data);
       }),
       $.getJSON(ALCHEMY_URL, paramsArray[6], (data) => {
-        // There will be one for each of the 5 results
         results.push(data);
       })
     ).then(function() {
         console.log(results);
         averageSentimentScore(results);
-
-
-
         showResults(results);
       }
     )
@@ -96,7 +80,7 @@ $(document).ready(() => {
       html += "</tr>";
     }
     $('#results').append(html);
-    $('#sign-in-to-save').show();
+    $('#save-report-button').show();
   }
 
   // Clean URL function
@@ -120,28 +104,29 @@ $(document).ready(() => {
     return average;
   }
 
-  // ADDED BELOW
-  // Submit event handler for clicking on "Sign in to Save Report"
-  $('#sign-in-to-save').submit( function(e) {
+  // Submit event handler for clicking on "Save Report"
+  $('#save-report').submit( function(e) {
     e.preventDefault();
-    document.location.href = '/users/me'
-    createUser(account);
-    createUser(account);
+    console.log("Save started");
+    let record = {
+      date: new Date(), 
+      results: results, 
+      averageScore: averageSentimentScore(results)
+    }
+    $.ajax({
+      url: "/save-record", 
+      type: "POST", 
+      data: JSON.stringify(record), 
+      dataType: "json", 
+      contentType: "application/json", 
+      success: function(data) {
+        console.log("Succeeded");
+      }, 
+      error: function() {
+        console.log("Error");
+      }
+    })
+
   })
-
-  var signIn = (account) => {
-    let username = "";
-    let password = "";
-    let firstName = "";
-    let lastName = "";
-  }
-
-  var createUser = (account) => {
-    let username = "";
-    let password = "";
-    let firstName = "";
-    let lastName = "";
-  }
-  // ADDED ABOVE
 
 })

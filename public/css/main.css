@@ -20,9 +20,9 @@ body {
       rgba(234, 234, 234, 1), 
       rgba(255, 0, 0, 0.25)
     ),
-  url('../images/cape-cod_wellfleet-water.jpg');
+  url('../images/site-background.jpg');
   background-size: cover;
-  background-repeat: no-repeat;
+  background-repeat: repeat;
   background-attachment: fixed;
   background-position: center;
 }
@@ -38,10 +38,6 @@ input {
 
 #search-input {
   width: 910px;
-}
-
-button, input[type="text"] {
-  padding: 5px;
 }
 
 button {
@@ -61,21 +57,4 @@ button:hover {
   padding-top: 20px;
   background: #f9f9f9;
   color: #00356b;
-}
-
-th {
-  padding-right: 20px;
-  paddingt-left: 20px;
-}
-
-#header, th {
-  text-deocration: underline;
-  padding-left: 25px;
-  padding-right: 25px;
-}
-
-#results {
-  list-style: none;
-  padding-left: 20px;
-  padding-right: 20px;
 }

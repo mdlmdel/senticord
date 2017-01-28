@@ -2,33 +2,28 @@ const mongoose = require('mongoose');
 
 // This is the schema to represent an entity record
 const entitySchema = mongoose.Schema({
+  date: { type: Date, default: Date.now() }, 
+  results: { type: [], required: true },
+  averageScore: { type: Number, required: true }, 
   // Consider querying by a specific type of search instead
-  query: { type: String, required: true }, 
-  average: { type: Number, required: true} , 
-  //results { type: [], required: true},
-  date: { type: Date, default: Date.now }
-  // ofDates: [Date],
+  query: { type: String, required: false }
 });
 
-
-// this is an *instance method* which will be available on all instances
-// of the model. This method will be used to return an object that only
-// exposes *some* of the fields we want from the underlying data
+/* *Instance method* that is used to return an object that only
+   exposes *some* of the fields we want from the underlying data */
 entitySchema.methods.apiRepr = function() {
-
   return {
     id: this._id,
     query: this.query,
-    average: this.average, 
-    results: [],
     date: this.date,
+    results: [],
+    average: this.average, 
     // source: this.source
   };
 }
 
-
-// note that all instance methods and virtual properties on our
-// schema must be defined *before* we make the call to `.model`.
+/* All instance methods and virtual properties on the schema must be 
+  defined *before* the call is made to `.model`. */
 const Entity = mongoose.model('Entity', entitySchema);
 
 module.exports = {Entity};
