@@ -136,22 +136,14 @@ $(document).ready(() => {
   })
 
   // Submit event handler for clicking on "View Reports"
-  $('#view-reports-button').submit( function(e) {
+  $('#view-reports').submit( function(e) {
     e.preventDefault();
     $('#view-saved-reports').show();
     console.log("View reports started");
-    let record = {
-      query: globalQuery,
-      date: new Date(), 
-      results: results, 
-      averageScore: averageSentimentScore(results)
-    }
     $.ajax({
       url: "/view-reports", 
       type: "GET", 
-      data: JSON.stringify(record), 
       dataType: "json", 
-      contentType: "application/json", 
       success: function(data) {
         console.log("Succeeded");
       }, 
