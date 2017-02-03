@@ -2,9 +2,12 @@ $(document).ready(() => {
   let sources = ["https://hbr.org", "http://nytimes.com", "http://wsj.com", "http://economist.com", 
     "http://forbes.com", "https://ft.com", "http://time.com"];
   let results = [];
+  let globalQuery;
   $('#header').hide();
   $('.results').hide();
   $('#save-report-button').hide();
+  $('#view-reports-button').hide();
+  $('#view-saved-reports').hide();
   // Submit event handler
   $('#search-form').submit((e) => {
     e.preventDefault();
@@ -16,6 +19,7 @@ $(document).ready(() => {
   // Extract entities from Alchemy API
   // Only pass URL now
   var getEntities = (query) => {
+    globalQuery = query;
     const ALCHEMY_URL = 'https://gateway-a.watsonplatform.net/calls/url/URLGetTextSentiment';
     let params = {
       q: query,
@@ -81,6 +85,7 @@ $(document).ready(() => {
     }
     $('#results').append(html);
     $('#save-report-button').show();
+    $('#view-reports-button').show();
   }
 
   // Clean URL function
@@ -109,6 +114,7 @@ $(document).ready(() => {
     e.preventDefault();
     console.log("Save started");
     let record = {
+      query: globalQuery,
       date: new Date(), 
       results: results, 
       averageScore: averageSentimentScore(results)
@@ -116,6 +122,33 @@ $(document).ready(() => {
     $.ajax({
       url: "/save-record", 
       type: "POST", 
+      data: JSON.stringify(record), 
+      dataType: "json", 
+      contentType: "application/json", 
+      success: function(data) {
+        console.log("Succeeded");
+      }, 
+      error: function() {
+        console.log("Error");
+      }
+    })
+
+  })
+
+  // Submit event handler for clicking on "View Reports"
+  $('#view-reports-button').submit( function(e) {
+    e.preventDefault();
+    $('#view-saved-reports').show();
+    console.log("View reports started");
+    let record = {
+      query: globalQuery,
+      date: new Date(), 
+      results: results, 
+      averageScore: averageSentimentScore(results)
+    }
+    $.ajax({
+      url: "/view-reports", 
+      type: "GET", 
       data: JSON.stringify(record), 
       dataType: "json", 
       contentType: "application/json", 

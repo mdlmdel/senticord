@@ -2,6 +2,10 @@
   "name": "senticord",
   "version": "1.0.0",
   "description": "Customized trending sentiment analysis",
+  "engines": {
+    "node": "6.9.1", 
+    "npm": "3.10.8"
+  },
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

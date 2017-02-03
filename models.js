@@ -6,7 +6,7 @@ const entitySchema = mongoose.Schema({
   results: { type: [], required: true },
   averageScore: { type: Number, required: true }, 
   // Consider querying by a specific type of search instead
-  query: { type: String, required: false }
+  query: { type: String, required: true }
 });
 
 /* *Instance method* that is used to return an object that only

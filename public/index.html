@@ -37,10 +37,26 @@
     </table>
     <table>
       <tr>
-      <form id="save-report">
+      <form method="post" action="save-report" id="save-report">
         <button type="submit" id="save-report-button" class="btn btn-primary">Save Report</button>
       </form>
+      <form method="get" action="view-reports">
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <button type="submit" id="view-reports-button" class="btn btn-primary">View Reports</button>
+      </form>
       </tr>
+    </table>
+    <table class="table table-hover view-saved-reports" id="view-saved-reports">
+      <thead id="header-saved-reports">
+        <tr id="query-saved-reports"></tr>
+        <tr>
+          <th>Publication</th>
+          <th>Sentiment Score</th>
+          <th>Sentiment Type</th>
+          <th>Report Date</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
     </table>
   </body>
 </html>

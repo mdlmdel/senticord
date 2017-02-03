@@ -16,13 +16,13 @@ app.use(bodyParser.json());
 app.use(express.static('public'));
 
 // GET requests to /entities --> return a max of 10 entity records
-app.get('/entities', (req, res) => {
+/*app.get('/entities', (req, res) => {
   Entity
     .find()
     .limit(10)
     .exec()
     .then(entities => {
-      res.json({
+      res.status(200).json({
         entities: entities.map(
           (entity) => entity.apiRepr())
       });
@@ -32,23 +32,44 @@ app.get('/entities', (req, res) => {
         console.error(err);
         res.status(500).json({message: 'Internal server error'});
     });
+});*/
+
+// New GET request -- updated
+app.get('/entities', (req, res) => {
+  Entity
+    .find({}, function(err, data) {
+      if (err) {
+        res.json(err);
+      }
+      res.json(data);
+    })
 });
 
 app.get('/entities/:id', (req, res) => {
   Entity
     // Search by the object _id property via the convenience method Mongoose provides
-    .findById(req.params.id)
-    .exec()
-    .then(entity =>res.json(entity.apiRepr()))
-    .catch(err => {
-      console.error(err);
-        res.status(500).json({message: 'Internal server error'})
-    });
+    .findOne({_id:req.params.id}, function(err, data) {
+      if (err) {
+          res.status(500).json(err);
+        }
+        res.status(200).json(data);
+      })
+});
+
+// GET request to view the saved records
+app.get('/view-reports', (req, res) => {
+  Entity
+    .find({}, function(err, data) {
+      if (err) {
+          res.status(500).json(err);
+        }
+        res.status(200).json(data);
+      })
 });
 
 app.post('/save-record', (req, res) => {
   console.log("Save record via POST request");
-  const requiredFields = ['date', 'results', 'averageScore'];
+  const requiredFields = ['query', 'date', 'results', 'averageScore'];
   requiredFields.forEach(field => {
     // ensure that required fields have been sent over
     if (! (field in req.body && req.body[field])) {
@@ -60,12 +81,10 @@ app.post('/save-record', (req, res) => {
     Entity.create(req.body, function(err, record) {
       if (err) {
         console.log("Error creating record");
-        mongoose.disconnect(); 
         res.status(500).json(err);
         return;
       }
       console.log("Record created");
-      mongoose.disconnect();
       res.status(201).json(record);
     });
 });
@@ -101,6 +120,14 @@ app.put('/entity/:id', (req, res) => {
 app.delete('/entity/:id', (req, res) => {
   Entity
     .findByIdAndRemove(req.params.id)
+    .exec()
+    .then(entity => res.status(204).end())
+    .catch(err => res.status(500).json({message: 'Internal server error'}));
+});
+
+app.delete('/view-reports', (req, res) => {
+  Entity
+    .find({})
     .exec()
     .then(entity => res.status(204).end())
     .catch(err => res.status(500).json({message: 'Internal server error'}));
