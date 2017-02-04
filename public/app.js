@@ -88,6 +88,19 @@ $(document).ready(() => {
     $('#view-reports-button').show();
   }
 
+  var showReport = (data) => {
+    console.log(data);
+    let html = "";
+    for (var i = 0; i < data.length; i++) {
+      html += "<tr>";
+      html += `<td> ${data[i].query} </td>`;
+      html += `<td> ${data[i].averageScore} </td>`;
+      html += `<td> ${data[i].date.slice(0,10)} </td>`;  
+      html += "</tr>";    
+    }
+    $("#summary-results").append(html);
+  }
+
   // Clean URL function
   var cleanURL = (url) => {
     var position = url.indexOf("://");
@@ -145,6 +158,7 @@ $(document).ready(() => {
       type: "GET", 
       dataType: "json", 
       success: function(data) {
+        showReport(data);
         console.log("Succeeded");
       }, 
       error: function() {
