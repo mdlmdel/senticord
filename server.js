@@ -15,26 +15,7 @@ app.use(bodyParser.json());
 
 app.use(express.static('public'));
 
-// GET requests to /entities --> return a max of 10 entity records
-/*app.get('/entities', (req, res) => {
-  Entity
-    .find()
-    .limit(10)
-    .exec()
-    .then(entities => {
-      res.status(200).json({
-        entities: entities.map(
-          (entity) => entity.apiRepr())
-      });
-    })
-    .catch(
-      err => {
-        console.error(err);
-        res.status(500).json({message: 'Internal server error'});
-    });
-});*/
-
-// New GET request -- updated
+// GET request to retrieve sentiment analysis on an entity from search
 app.get('/entities', (req, res) => {
   Entity
     .find({}, function(err, data) {
@@ -77,16 +58,16 @@ app.post('/save-record', (req, res) => {
     }
   });
 
-// Record that fully encapsulates search
-    Entity.create(req.body, function(err, record) {
-      if (err) {
-        console.log("Error creating record");
-        res.status(500).json(err);
-        return;
-      }
-      console.log("Record created");
-      res.status(201).json(record);
-    });
+  // Record that fully encapsulates search
+  Entity.create(req.body, function(err, record) {
+    if (err) {
+      console.log("Error creating record");
+      res.status(500).json(err);
+      return;
+    }
+    console.log("Record created");
+    res.status(201).json(record);
+  });
 });
 
 app.put('/entity/:id', (req, res) => {

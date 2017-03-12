@@ -18,14 +18,11 @@
     <form id="search-form">
       <label for="search-term"></label>
       <input type="text" name="search-input" id="search-term" placeholder="e.g., Leadership">
-      <button type="submit" class="btn btn-primary">Select</button>
+      <button type="submit" class="btn btn-primary">Select Entity</button>
     </form>
-    <table>
-      &nbsp;
-    </table>
-    <table class="table table-hover results">
+
+    <table class="table table-default table-hover results">
       <thead id="header">
-        <tr id="query"></tr>
         <tr>
           <th>Publication</th>
           <th>Sentiment Score</th>
@@ -37,26 +34,31 @@
     </table>
     <table>
       <tr>
-      <form id="save-report">
-        <button type="submit" id="save-report-button" class="btn btn-primary">Save Report</button>
-      </form>
-      <form id="view-reports">
-        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-        <button type="submit" class="btn btn-primary">View Reports</button>
-      </form>
+        <div>
+          <tr>
+            <th>
+            <form id="view-reports">
+              <button type="submit" class="btn btn-primary">View Reports</button>
+            </form>
+            </th>
+            <th>
+            <form id="save-report">
+              <button type="submit" id="save-report-button" class="btn btn-primary">Save Report</button>
+            </form>
+            </th>
+          </tr>
+        </div>
       </tr>
     </table>
-    <table class="table table-hover view-saved-reports" id="view-saved-reports">
+    <table class="table table-default table-hover view-saved-reports">
       <thead id="header-saved-reports">
-        <tr id="query-saved-reports"></tr>
         <tr>
-          <th>Publication</th>
-          <th>Sentiment Score</th>
-          <th>Sentiment Type</th>
+          <th>Query</th>
+          <th>Average Sentiment Score</th>
           <th>Report Date</th>
         </tr>
       </thead>
-      <tbody></tbody>
+      <tbody id="summary-results"></tbody>
     </table>
   </body>
 </html>
