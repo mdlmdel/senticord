@@ -15,6 +15,15 @@ app.use(bodyParser.json());
 
 app.use(express.static('public'));
 
+// This is because senticord-redux-2 and senticord have different ports
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, Access-Control-Allow-Credentials');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  next();
+});
+
 // GET request to retrieve sentiment analysis on an entity from search
 app.get('/entities', (req, res) => {
   Entity
@@ -98,10 +107,12 @@ app.put('/entity/:id', (req, res) => {
     .catch(err => res.status(500).json({message: 'Internal server error'}));
 });
 
-app.delete('/entity/:id', (req, res) => {
+// This is a post request that functionally deletes the record
+// To make it say delete, you just change "post" in line 112 to "delete"
+app.post('/entity/:id', (req, res) => {
   Entity
     .findByIdAndRemove(req.params.id)
-    .exec()
+    // .exec()
     .then(entity => res.status(204).end())
     .catch(err => res.status(500).json({message: 'Internal server error'}));
 });
@@ -111,7 +122,7 @@ app.delete('/view-reports', (req, res) => {
     .find({})
     .exec()
     .then(entity => res.status(204).end())
-    .catch(err => res.status(500).json({message: 'Internal server error'}));
+    .catch(err => {console.error(err); res.status(500).json({message: 'Internal server error'})});
 });
 
 // Catch-all endpoint if client makes request to non-existent endpoint
