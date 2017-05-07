@@ -12,44 +12,56 @@
     <!-- Link to app.js -->
     <script type="text/javascript" src="app.js"></script>
   </head>
-  <body class="container bg-img">
-    <h1>SentiCord: Customized Trending Sentiment Analysis</h1>
-    <h3>Select an organization, brand, public figure, or business concept to analyze</h3>
-    <form id="search-form">
-      <label for="search-term"></label>
-      <input type="text" name="search-input" id="search-term" placeholder="e.g., Leadership">
-      <button type="submit" class="btn btn-primary">Select Entity</button>
-    </form>
-
-    <table class="table table-default table-hover results">
-      <thead id="header">
-        <tr>
-          <th>Publication</th>
-          <th>Sentiment Score</th>
-          <th>Sentiment Type</th>
-          <th>Report Date</th>
-        </tr>
-      </thead>
-      <tbody id="results"></tbody>
-    </table>
-    <table>
-      <tr>
-        <div>
+  <body class="bg-img">
+  <div class="container">
+    <div class="row bg-header">
+      <div class="col-lg-12 bg-img">
+      <h1>SentiCord: Customized Trending Sentiment Analysis</h1>
+      <h3>Search for an organization, brand, public figure, or business concept to analyze</h3>
+      <h5 class="instructions"><strong>How it works</strong>: Enter the term you want to analyze, and click "Search Term." SentiCord will use the IBM Watson AlchemyLanguage API to perform sentiment analysis on the term you search for as it appears on the home pages of the Harvard Business Review, New York Times, Wall Street Journal, Economist, Forbes, Financial Times, and Time. </h5>
+      </div>
+    </div>
+    <div class="row bg-header">
+      <div class="col-lg-2">
+      </div>
+      <div class="col-lg-8">
+      <form id="search-form">
+        <label for="search-term"></label>
+        <input type="text" name="search-input" id="search-term" placeholder="e.g., Leadership">
+        <button type="submit" class="btn btn-primary">Search Term</button>
+      </form>
+      </div>
+      <div class="col-lg-2">
+      </div>
+      <table class="table table-default table-hover results">
+        <thead id="header">
           <tr>
-            <th>
-            <form id="view-reports">
-              <button type="submit" class="btn btn-primary">View Reports</button>
-            </form>
-            </th>
-            <th>
-            <form id="save-report">
-              <button type="submit" id="save-report-button" class="btn btn-primary">Save Report</button>
-            </form>
-            </th>
+            <th>Publication</th>
+            <th>Sentiment Score</th>
+            <th>Sentiment Type</th>
+            <th>Report Date</th>
           </tr>
-        </div>
-      </tr>
-    </table>
+        </thead>
+        <tbody id="results"></tbody>
+      </table>
+      <table>
+        <tr>
+          <div>
+            <tr>
+              <th>
+              <form id="view-reports">
+                <button type="submit" class="btn btn-primary">View Saved Reports</button>
+              </form>
+              </th>
+              <th>
+              <form id="save-report">
+                <button type="submit" id="save-report-button" class="btn btn-primary">Save Report</button>
+              </form>
+              </th>
+            </tr>
+          </div>
+        </tr>
+      </table>
     <table class="table table-default table-hover view-saved-reports">
       <thead id="header-saved-reports">
         <tr>
@@ -60,5 +72,6 @@
       </thead>
       <tbody id="summary-results"></tbody>
     </table>
+    </div>
   </body>
 </html>
